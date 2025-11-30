@@ -168,3 +168,117 @@ func TestSearchInRotatedSortedArray(t *testing.T) {
 		})
 	}
 }
+
+func TestFindPeakArray(t *testing.T) {
+	tests := []struct {
+		name string
+		nums []int
+	}{
+		{
+			name: "single element",
+			nums: []int{5},
+		},
+		{
+			name: "two elements ascending",
+			nums: []int{1, 2},
+		},
+		{
+			name: "two elements descending",
+			nums: []int{2, 1},
+		},
+		{
+			name: "peak at beginning",
+			nums: []int{5, 4, 3, 2, 1},
+		},
+		{
+			name: "peak at end",
+			nums: []int{1, 2, 3, 4, 5},
+		},
+		{
+			name: "peak in middle",
+			nums: []int{1, 2, 3, 2, 1},
+		},
+		{
+			name: "peak at index 1",
+			nums: []int{1, 3, 2},
+		},
+		{
+			name: "peak near beginning",
+			nums: []int{1, 5, 3, 2},
+		},
+		{
+			name: "peak near end",
+			nums: []int{1, 2, 5, 3},
+		},
+		{
+			name: "multiple peaks left side",
+			nums: []int{1, 3, 2, 5, 4},
+		},
+		{
+			name: "multiple peaks right side",
+			nums: []int{1, 3, 2, 4, 6},
+		},
+		{
+			name: "valley then peak",
+			nums: []int{5, 1, 2, 3, 4},
+		},
+		{
+			name: "peak then valley",
+			nums: []int{1, 5, 4, 3, 2},
+		},
+		{
+			name: "zigzag pattern",
+			nums: []int{1, 3, 2, 4, 3, 5, 4},
+		},
+		{
+			name: "larger ascending array",
+			nums: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+		},
+		{
+			name: "larger descending array",
+			nums: []int{10, 9, 8, 7, 6, 5, 4, 3, 2, 1},
+		},
+		{
+			name: "peak in middle of large array",
+			nums: []int{1, 2, 3, 4, 5, 10, 9, 8, 7, 6},
+		},
+		{
+			name: "early peak in large array",
+			nums: []int{1, 8, 7, 6, 5, 4, 3, 2},
+		},
+		{
+			name: "late peak in large array",
+			nums: []int{1, 2, 3, 4, 5, 6, 7, 15, 10},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := FindPeakArray(tt.nums)
+
+			// Validate that result is within bounds
+			if result < 0 || result >= len(tt.nums) {
+				t.Errorf("FindPeakArray(%v) = %d; index out of bounds", tt.nums, result)
+				return
+			}
+
+			// Validate that the returned index is actually a peak
+			isPeak := true
+
+			// Check left neighbor
+			if result > 0 && tt.nums[result] <= tt.nums[result-1] {
+				isPeak = false
+			}
+
+			// Check right neighbor
+			if result < len(tt.nums)-1 && tt.nums[result] <= tt.nums[result+1] {
+				isPeak = false
+			}
+
+			if !isPeak {
+				t.Errorf("FindPeakArray(%v) = %d (value=%d); not a peak element",
+					tt.nums, result, tt.nums[result])
+			}
+		})
+	}
+}
