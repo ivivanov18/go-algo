@@ -1,4 +1,4 @@
-package main
+package twoPointers
 
 func BinarySearch(nums []int, target int) int {
 	left, right := 0, len(nums)-1
